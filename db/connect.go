@@ -19,31 +19,29 @@ var (
 )
 
 func init() {
-	_db_username, present := os.LookupEnv("DB_USERNAME")
+	var present bool
+	db_username, present = os.LookupEnv("DB_USERNAME")
 	if !present {
 		log.Fatalln("Please provide the DB_NAME environment variable while executing the app")
 	}
 
-	_db_password, present := os.LookupEnv("DB_PASSWORD")
+	db_password, present = os.LookupEnv("DB_PASSWORD")
 	if !present {
 		log.Fatalln("Please provide the DB_PASSWORD environment variable while executing the app")
 	}
 
-	_db_name, present := os.LookupEnv("DB_NAME")
+	db_name, present = os.LookupEnv("DB_NAME")
 	if !present {
 		log.Fatalln("Please provide the DB_NAME environment variable while executing the app")
 	}
 
-	_db_cluster, present := os.LookupEnv("DB_CLUSTER")
+	db_cluster, present = os.LookupEnv("DB_CLUSTER")
 	if !present {
 		log.Fatalln("Please provide the DB_CLUSTER environment variable while executing the app")
 	}
-
-	db_username = _db_username
-	db_password = _db_password
-	db_name = _db_name
-	db_cluster = _db_cluster
 }
+
+var MongoClient *mongo.Client
 
 func Connect() func(ctx context.Context) error {
 	serverApi := options.ServerAPI(options.ServerAPIVersion1)
@@ -51,16 +49,17 @@ func Connect() func(ctx context.Context) error {
 
 	opts := options.Client().ApplyURI(connection_URI).SetServerAPIOptions(serverApi)
 
-	client, err := mongo.Connect(context.TODO(), opts)
+	var err error
+	MongoClient, err = mongo.Connect(context.TODO(), opts)
 	if err != nil {
 		log.Fatalf("Unable to connect to mongodb: %#v", err)
 	}
 
-	if err := client.Database(db_name).RunCommand(context.TODO(), bson.D{{"ping", 1}}).Err(); err != nil {
+	if err := MongoClient.Database(db_name).RunCommand(context.TODO(), bson.D{{"ping", 1}}).Err(); err != nil {
 		log.Fatalf("Unable to ping database: %v", err)
 	}
 
 	log.Printf("Succesfully pinged deployment. Connected to MongoDB!")
 
-	return client.Disconnect
+	return MongoClient.Disconnect
 }
