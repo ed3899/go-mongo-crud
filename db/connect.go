@@ -15,6 +15,7 @@ var (
 	db_username string
 	db_password string
 	db_name     string
+	db_cluster string
 )
 
 func init() {
@@ -33,14 +34,20 @@ func init() {
 		log.Fatalln("Please provide the DB_NAME environment variable while executing the app")
 	}
 
+	_db_cluster, present := os.LookupEnv("DB_CLUSTER")
+	if !present {
+		log.Fatalln("Please provide the DB_CLUSTER environment variable while executing the app")
+	}
+
 	db_username = _db_username
 	db_password = _db_password
 	db_name = _db_name
+	db_cluster = _db_cluster
 }
 
 func Connect() func(ctx context.Context) error {
 	serverApi := options.ServerAPI(options.ServerAPIVersion1)
-	connection_URI := fmt.Sprintf("mongodb+srv://%s:%s@cluster0.otl1hoy.mongodb.net/?retryWrites=true&w=majority", db_username, db_password)
+	connection_URI := fmt.Sprintf("mongodb+srv://%s:%s@%s/?retryWrites=true&w=majority", db_username, db_password, db_cluster)
 
 	opts := options.Client().ApplyURI(connection_URI).SetServerAPIOptions(serverApi)
 
