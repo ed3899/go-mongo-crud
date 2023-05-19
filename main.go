@@ -2,8 +2,8 @@ package main
 
 import (
 	"context"
-	"encoding/json"
 	"go-quickstart/db"
+	"go-quickstart/routes"
 	"log"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -16,7 +16,7 @@ func init() {
 }
 
 type Listing struct {
-	Id string `bson:"_id"`
+	Id     string `bson:"_id"`
 	Access string `bson:"access"`
 }
 
@@ -35,8 +35,5 @@ func main() {
 		log.Fatal(err)
 	}
 
-	jsonData, err := json.MarshalIndent(result, "", "   ")
-	if err != nil {
-		log.Fatal(err)
-	}
+	routes.Serve(":8080")
 }
