@@ -14,7 +14,7 @@ import (
 var (
 	db_username string
 	db_password string
-	db_name     string
+	Db_name     string
 	db_cluster string
 )
 
@@ -30,7 +30,7 @@ func init() {
 		log.Fatalln("Please provide the DB_PASSWORD environment variable while executing the app")
 	}
 
-	db_name, present = os.LookupEnv("DB_NAME")
+	Db_name, present = os.LookupEnv("DB_NAME")
 	if !present {
 		log.Fatalln("Please provide the DB_NAME environment variable while executing the app")
 	}
@@ -55,7 +55,7 @@ func Connect() func(ctx context.Context) error {
 		log.Fatalf("Unable to connect to mongodb: %#v", err)
 	}
 
-	if err := MongoClient.Database(db_name).RunCommand(context.TODO(), bson.D{{"ping", 1}}).Err(); err != nil {
+	if err := MongoClient.Database(Db_name).RunCommand(context.TODO(), bson.D{{"ping", 1}}).Err(); err != nil {
 		log.Fatalf("Unable to ping database: %v", err)
 	}
 
