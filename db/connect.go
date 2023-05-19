@@ -9,13 +9,13 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 
-	"go-quickstart/config"
 	_ "go-quickstart/config"
+	"go-quickstart/config"
 )
 
 func Connect() (*mongo.Client, func(ctx context.Context) error) {
 	serverApi := options.ServerAPI(options.ServerAPIVersion1)
-	connection_URI := fmt.Sprintf("mongodb+srv://%s:%s@%s/?retryWrites=true&w=majority", config.Db_username, config.Db_password, config.Db_cluster)
+	connection_URI := fmt.Sprintf("mongodb+srv://%s:%s@%s/?retryWrites=true&w=majority", config.Get(config.DB_USERNAME), config.Get(config.DB_PASSWORD), config.Get(config.DB_CLUSTER))
 
 	opts := options.Client().ApplyURI(connection_URI).SetServerAPIOptions(serverApi)
 
