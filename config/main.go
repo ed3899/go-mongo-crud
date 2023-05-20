@@ -6,16 +6,17 @@ import (
 )
 
 const (
-	DB_USERNAME = "DB_USERNAME"
-	DB_PASSWORD = "DB_PASSWORD"
-	DB_CLUSTER  = "DB_CLUSTER"
-	DB_NAME     = "sample_airbnb"
+	C1_DB_USERNAME = "C1_DB_USERNAME"
+	C1_DB_PASSWORD = "C1_DB_PASSWORD"
+	C1_DB_CLUSTER  = "C1_DB_CLUSTER"
+	C1_DB_AIRBNB                     = "C1_DB_AIRBNB"
+	C1_DB_AIRBNB_COLLEC_LISTINGS = "C1_DB_AIRBNB_COLLEC_LISTINGS"
 )
 
 var _Environment map[string]string
 
 func init() {
-	environmentVariables := [3]string{DB_USERNAME, DB_PASSWORD, DB_CLUSTER}
+	environmentVariables := [5]string{C1_DB_USERNAME, C1_DB_PASSWORD, C1_DB_CLUSTER, C1_DB_AIRBNB, C1_DB_AIRBNB_COLLEC_LISTINGS}
 	_Environment = make(map[string]string)
 	var present bool
 
