@@ -175,7 +175,22 @@ func (collection *CollectionHandler) Update(ctx *gin.Context) {
 	ctx.SecureJSON(http.StatusOK, gin.H{"message": "resource updated"})
 }
 
-func (h *CollectionHandler) Delete(ctx *gin.Context) {
+func (collection *CollectionHandler) Delete(ctx *gin.Context) {
+	// Parse params
+	id := ctx.Param("id")
+
+	// Delete resource
+	filter := bson.D{{"listing_id", id}}
+	result, err := collection.DeleteOne(context.TODO(), filter)
+	if err != nil {
+		err := fmt.Errorf("there was an error deleting the listing: %#v", err)
+		ctx.SecureJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Send result
+	message := fmt.Sprintf("deleted resource: %d", result.DeletedCount)
+	ctx.SecureJSON(http.StatusOK, gin.H{"message": message})
 }
 
 func GetListingsCollHandler(coll *mongo.Collection) *CollectionHandler {
