@@ -1,0 +1,100 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "go-mongo-app",
+    "dateExported": "2023-05-20T23:36:13.919Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "20858eaa-8c2f-447f-805b-7cc72b67663c",
+            "colId": "9825de0c-f16d-49a3-b595-5c394bf21712",
+            "containerId": "",
+            "name": "/v1/listing/:id",
+            "url": "http://localhost:8080/api/v1/listing/a1c996cf-3a15-444e-918f-46963bde58dd",
+            "method": "GET",
+            "sortNum": 15000,
+            "created": "2023-05-19T21:37:57.575Z",
+            "modified": "2023-05-20T23:33:51.143Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "fca2e1f1-331c-40e4-8900-c8885766cbb7",
+            "colId": "9825de0c-f16d-49a3-b595-5c394bf21712",
+            "containerId": "",
+            "name": "/v1/listing/",
+            "url": "http://localhost:8080/api/v1/listing/?limit=3&page=0",
+            "method": "GET",
+            "sortNum": 22500,
+            "created": "2023-05-20T21:46:44.041Z",
+            "modified": "2023-05-20T23:34:21.456Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "limit",
+                    "value": "3",
+                    "isPath": false
+                },
+                {
+                    "name": "page",
+                    "value": "0",
+                    "isPath": false
+                }
+            ],
+            "tests": []
+        },
+        {
+            "_id": "f1fbbbdb-dc19-477b-a45c-b53786ebc366",
+            "colId": "9825de0c-f16d-49a3-b595-5c394bf21712",
+            "containerId": "",
+            "name": "/v1/listing",
+            "url": "http://localhost:8080/api/v1/listing",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2023-05-19T17:19:28.452Z",
+            "modified": "2023-05-20T23:32:57.817Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"access\": \"zzz\",\n  \"address\": {\n    \"country\": \"c\",\n    \"country_code\": \"cc\",\n    \"location\": {\n      \"type\": \"Point\",\n      \"coordinates\": [-6.1234, 56.485],\n      \"is_location_exact\": true\n    }\n  }\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "def67c43-9b6a-4567-b819-9f4f9d39edde",
+            "colId": "9825de0c-f16d-49a3-b595-5c394bf21712",
+            "containerId": "",
+            "name": "/v1/listing/:id",
+            "url": "http://localhost:8080/api/v1/listing/a1c996cf-3a15-444e-918f-46963bde58dd",
+            "method": "PUT",
+            "sortNum": 60000,
+            "created": "2023-05-20T22:47:03.872Z",
+            "modified": "2023-05-20T23:34:40.916Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"access\": \"updated3\",\n  \"address\": {\n    \"country\": \"c1\",\n    \"country_code\": \"ccx\",\n    \"location\": {\n      \"type\": \"Point\",\n      \"coordinates\": [-6.1234, 56.485],\n      \"is_location_exact\": true\n    }\n  }\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "377abc24-b4ff-438e-9abb-6c6b1cc19b08",
+            "colId": "9825de0c-f16d-49a3-b595-5c394bf21712",
+            "containerId": "",
+            "name": "/v1/listing/:id",
+            "url": "http://localhost:8080/api/v1/listing/a1c996cf-3a15-444e-918f-46963bde58dd",
+            "method": "DELETE",
+            "sortNum": 70000,
+            "created": "2023-05-20T23:30:02.581Z",
+            "modified": "2023-05-20T23:35:02.120Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        }
+    ]
+}
