@@ -5,12 +5,14 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	uuid "github.com/satori/go.uuid"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type Location struct {
@@ -30,13 +32,13 @@ type Address struct {
 }
 
 type Listing struct {
-	ListingID string   `bson:"listing_id,omitempty" json:"listing_id,omitempty"`
-	Access    string   `bson:"access,omitempty" json:"access,omitempty"`
+	ListingID string   `json:"listing_id,omitempty" bson:"listing_id,omitempty"`
+	Access    string   `json:"access,omitempty" bson:"access,omitempty" `
 	Address   *Address `json:"address,omitempty" bson:"address,omitempty"`
 }
 
 type ListingResponse struct {
-	ObjectID primitive.ObjectID `bson:"_id,omitempty"`
+	_id      primitive.ObjectID `bson:"_id,omitempty"`
 	*Listing `bson:"inline"`
 }
 
@@ -54,7 +56,62 @@ func (collection *CollectionHandler) GetById(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, ListingResponse)
 }
 
-func (collection *CollectionHandler) GetAll(ctx *gin.Context) {
+func (collection *CollectionHandler) GetByPage(ctx *gin.Context) {
+	// Get query parameters
+	const MAX_CAPACITY = 100
+	limitQuery := ctx.DefaultQuery("limit", "10")
+	pageQuery := ctx.DefaultQuery("page", "1")
+
+	// Parse query parameters
+	limit, err := strconv.ParseInt(limitQuery, 10, 64)
+	switch {
+	case err != nil:
+		err := fmt.Errorf("there was an error parsing %s", limitQuery)
+		log.Print(err)
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	case limit > MAX_CAPACITY:
+		err := fmt.Errorf("the maximum 'limit' is %d", MAX_CAPACITY)
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	page, err := strconv.ParseInt(pageQuery, 10, 64)
+	switch {
+	case err != nil:
+		err := fmt.Errorf("there was an error parsing '%d'", page)
+		log.Println(err)
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	case page <= 0:
+		err := fmt.Errorf("page must be greater than '%d'", page)
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+
+	// Set MongoDB query options. Pages are zero indexed.
+	opts := options.Find().SetLimit(limit).SetSkip((page - 1) * limit)
+
+	// Execute MongoDB query
+	cursor, err := collection.Find(context.TODO(), bson.D{}, opts)
+	if err != nil {
+		err := fmt.Errorf("there was an error retrieving the listings: %#v", err)
+		log.Println(err)
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	}
+
+	// Parse result from MongoDB query
+	var results = make([]ListingResponse, 0, limit)
+	if err := cursor.All(context.TODO(), &results); err != nil {
+		err := fmt.Errorf("there was an error getting the resultls from the cursor: %#v", err)
+		log.Println(err)
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Send result
+	ctx.JSON(http.StatusOK, results)
 }
 
 func (collection *CollectionHandler) Create(ctx *gin.Context) {

@@ -9,7 +9,7 @@ var (
 )
 
 type ApiV1Handler interface {
-	GetAll(ctx *gin.Context)
+	GetByPage(ctx *gin.Context)
 	GetById(ctx *gin.Context)
 	Create(ctx *gin.Context)
 	Update(ctx *gin.Context)
@@ -22,7 +22,7 @@ func init() {
 
 func SetBasicCRUD(group string, collectionHandler ApiV1Handler) {
 	gp := router.Group(group)
-	gp.GET("/listing", collectionHandler.GetAll)
+	gp.GET("/listing", collectionHandler.GetByPage)
 	gp.GET("/listing/:id", collectionHandler.GetById)
 	gp.POST("/listing", collectionHandler.Create)
 	gp.PUT("/listing/:id", collectionHandler.Update)
