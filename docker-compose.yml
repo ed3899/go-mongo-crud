@@ -1,0 +1,10 @@
+version: '3.4'
+
+services:
+  gomongodb:
+    image: gomongodb
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 8080:8080
