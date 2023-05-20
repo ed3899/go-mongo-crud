@@ -89,7 +89,6 @@ func (collection *CollectionHandler) GetByPage(ctx *gin.Context) {
 		return
 	}
 
-
 	// Set MongoDB query options. Pages are zero indexed.
 	opts := options.Find().SetLimit(limit).SetSkip((page - 1) * limit)
 
@@ -148,7 +147,32 @@ func (collection *CollectionHandler) Create(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, newListingResponse)
 }
 
-func (h *CollectionHandler) Update(ctx *gin.Context) {
+func (collection *CollectionHandler) Update(ctx *gin.Context) {
+	// Parse params
+	id := ctx.Param("id")
+
+	// Parse JSON body of update request
+	var updateRequest Listing
+	if err := ctx.ShouldBindJSON(&updateRequest); err != nil {
+		err := fmt.Errorf("there was an error parsing the json: %#v", err)
+		ctx.SecureJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Create MongoDB update filter and query
+	filter := bson.D{{"listing_id", id}}
+	updateQuery := bson.D{{"$set", updateRequest}}
+
+	// Run MongoDB query
+	_, err := collection.UpdateOne(context.TODO(), filter, updateQuery)
+	if err != nil {
+		err := fmt.Errorf("there was an error updating the listing: %#v", err)
+		ctx.SecureJSON(http.StatusNotModified, err)
+		return
+	}
+
+	// Send result
+	ctx.SecureJSON(http.StatusOK, gin.H{"message": "resource updated"})
 }
 
 func (h *CollectionHandler) Delete(ctx *gin.Context) {
