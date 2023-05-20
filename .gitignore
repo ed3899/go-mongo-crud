@@ -22,3 +22,6 @@ go.work
 
 # Dev Run
 dev_run.sh
+
+# MongoDB Atlas playground
+*.mongodb.*
