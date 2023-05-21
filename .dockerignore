@@ -24,3 +24,5 @@
 LICENSE
 README.md
 *rest.json
+dev_run.sh
+*.env

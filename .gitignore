@@ -25,3 +25,6 @@ dev_run.sh
 
 # MongoDB Atlas playground
 *.mongodb.*
+
+# Environment files
+*.env
