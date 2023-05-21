@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"go-quickstart/config"
 	_ "go-quickstart/config"
 	"go-quickstart/db"
@@ -12,10 +13,10 @@ import (
 
 func main() {
 	connectionConfig := db.ConnectionConfig{
-		DB_Username: config.Get(config.C1_DB_USERNAME),
-		DB_Password: config.Get(config.C1_DB_PASSWORD),
-		DB_Cluster: config.Get(config.C1_DB_CLUSTER),
-		DB_Name: config.Get(config.C1_DB_AIRBNB),
+		DB_Username:   config.Get(config.C1_DB_USERNAME),
+		DB_Password:   config.Get(config.C1_DB_PASSWORD),
+		DB_Cluster:    config.Get(config.C1_DB_CLUSTER),
+		DB_Name:       config.Get(config.C1_DB_AIRBNB),
 		DB_Collection: config.Get(config.C1_DB_AIRBNB_COLLEC_LISTINGS),
 	}
 	listingsCollection, mongoDisconnect := db.Connect(connectionConfig)
@@ -27,5 +28,6 @@ func main() {
 
 	listingsCollHandler := models.GetListingsCollHandler(listingsCollection)
 	routes.SetBasicCRUD("api/v1", listingsCollHandler)
-	routes.Serve(":8080")
+
+	routes.Serve(fmt.Sprintf(":%s", config.Get(config.SERVING_PORT)))
 }
