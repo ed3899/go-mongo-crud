@@ -7,7 +7,7 @@ A simple CRUD and Restful app writen in Go and using MongoDB Atlas.
 - [MongoDB Atlas Cluster](https://www.mongodb.com/docs/atlas/getting-started/)
 
 ### Optional
-This extension allows comes with sample data your can use to populate your cluster. It allows you to run queries from your code editor as well.
+This extension allows you to populate your cluster with sample data. It allows you to run queries from your code editor as well.
 
 - [MongoDB for VS Code](https://www.mongodb.com/products/vs-code)
 
@@ -25,11 +25,14 @@ Populate the .env file with the following:
 C1_DB_USERNAME=<YOUR_MONGO_DB_ATLAS_CLUSTER_USER>
 C1_DB_PASSWORD=<YOUR_MONGO_DB_ATLAS_CLUSTER_PASSWORD>
 C1_DB_CLUSTER=<YOUR_MONGO_DB_ATLAS_CLUSTER_NAME>
-# The following two you can get from the sample data in mentioned in the *Optional* section
+SERVING_PORT=8080
+```
+
+The following two you can get from the sample data in mentioned in the **Optional** section
+
+```
 C1_DB_AIRBNB=<YOUR_MONGO_DB_ATLAS_CLUSTER_DB_NAME>
 C1_DB_AIRBNB_COLLEC_LISTINGS=<YOUR_MONGO_DB_ATLAS_CLUSTER_USER>
-
-SERVING_PORT=8080
 ```
 
 Run:
