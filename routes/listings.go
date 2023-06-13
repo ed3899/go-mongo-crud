@@ -2,6 +2,7 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/zsais/go-gin-prometheus"
 )
 
 var (
@@ -18,6 +19,8 @@ type ApiV1Handler interface {
 
 func init() {
 	router = gin.Default()
+	p := ginprometheus.NewPrometheus("gin")
+	p.Use(router)
 }
 
 func SetBasicCRUD(group string, collectionHandler ApiV1Handler) {
