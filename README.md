@@ -15,7 +15,7 @@ This extension allows you to populate your cluster with sample data. It allows y
 Once you've created your MongoDB Cluster and a DBUser with adequate read and write permissions to the db in case.
 
 ```
-git clone https://github.com/ed3899/go-mongo-crud
+git clone git@github.com:ed3899/go-mongo-crud.git
 touch .env
 ```
 
