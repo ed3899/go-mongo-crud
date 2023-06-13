@@ -12,7 +12,7 @@ This extension allows you to populate your cluster with sample data. It allows y
 - [MongoDB for VS Code](https://www.mongodb.com/products/vs-code)
 
 ## Run
-Once you've created your MongoDB Cluster.
+Once you've created your MongoDB Cluster and a DBUser with adequate read and write permissions to the db in case.
 
 ```
 git clone https://github.com/ed3899/go-mongo-crud
@@ -31,8 +31,8 @@ SERVING_PORT=8080
 The following two you can get from the sample data in mentioned in the **Optional** section
 
 ```
-C1_DB_AIRBNB=<YOUR_MONGO_DB_ATLAS_CLUSTER_DB_NAME>
-C1_DB_AIRBNB_COLLEC_LISTINGS=<YOUR_MONGO_DB_ATLAS_CLUSTER_USER>
+C1_DB_AIRBNB=<AIRBNB_MONGO_DB_SAMPLEDB>
+C1_DB_AIRBNB_COLLEC_LISTINGS=<AIRBNB_MONGO_DB_SAMPLECOLLECTION>
 ```
 
 Run:
