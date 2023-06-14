@@ -1,0 +1,22 @@
+rule_files:
+  - prometheus.rules.yml
+evaluation_interval: 1m
+tests:
+  - interval: 1m
+    input_series:
+      - series: 'up{job="mongo-crud", instance="gomongodb:8080"}'
+        values: '0 0 0 0 0 0 0 0 0 0 0 0 0 0 0'
+      # Unit test for alerting rules.
+    alert_rule_test:
+        # Unit test 1.
+        - eval_time: 10m
+          alertname: InstanceDown
+          exp_alerts:
+              # Alert 1.
+              - exp_labels:
+                    severity: page
+                    instance: gomongodb:8080
+                    job: mongo-crud
+                exp_annotations:
+                    summary: "Instance gomongodb:8080 down"
+                    description: "gomongodb:8080 of job mongo-crud has been down for more than 5 minutes."

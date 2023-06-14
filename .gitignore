@@ -28,3 +28,6 @@ dev_run.sh
 
 # Environment files
 *.env
+
+# Vs code
+.vscode/
